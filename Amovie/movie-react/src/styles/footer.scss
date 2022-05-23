@@ -1,0 +1,47 @@
+@import "main.scss";
+
+.footer-block{
+  padding: 30px 0;
+  margin-top: 40px;
+  background-color: $third-color;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .logo{
+    img{
+      height: 70px;
+
+     
+    }
+  }
+
+  .pages{
+    padding: 20px 0;
+    p{
+      margin: 0;
+      font-family: $montserrat;
+      font-weight: 600;
+
+      a{
+        text-decoration: none;
+        color: $second-color;
+        &:hover{
+          color: #0071BA;
+        }
+
+      }
+    }
+
+    display: flex;
+    gap: 40px;
+  }
+}
+
+@media only screen and (max-width: 900px){
+  .footer-block .pages{
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}

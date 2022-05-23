@@ -1,0 +1,113 @@
+@import "main.scss";
+
+.css-hip9hq-MuiPaper-root-MuiAppBar-root{
+    background-color: #EEF3F5!important;
+    padding: 10px 0!important;
+}
+
+.btn-primary{
+  background-color: transparent!important;
+  color: #42474D!important;
+  border: none;
+  color: #42474D;
+  font-size: 18px;
+  font-weight: 600;
+  font-family: $montserrat;
+
+  &:hover{
+    color: $base-color!important;
+  }
+}
+
+.css-1083xa6-MuiTypography-root{
+
+  img{
+    height: 70px;
+  }
+}
+
+.css-h7cdpm-MuiTypography-root{
+  img{
+    height: 70px;
+  }
+}
+
+.css-1qzdjd3{
+  justify-content: flex-end!important;
+}
+
+.box{
+  text-decoration: none!important;
+    a{
+      text-decoration: none!important;
+
+      button{
+        color: #42474D!important;
+        border: none;
+        color: #42474D; 
+        font-size: 18px;
+        font-weight: 600;
+        font-family: $montserrat;
+        text-transform: none;
+
+        &:hover{
+          background-color: transparent;
+          color: $base-color!important;
+        }
+      }
+
+      &:hover{
+        color: $base-color;
+      }
+    }
+  }
+.css-6hp17o-MuiList-root-MuiMenu-list{
+  width: 150px;
+}
+
+.css-8je8zh-MuiTouchRipple-root{
+  &:hover{
+    color: $base-color!important;
+  }
+}
+
+.css-1e6y48t-MuiButtonBase-root-MuiButton-root{
+  color: #42474D!important;
+  font-family: $montserrat;
+
+  &:hover{
+    color: $base-color!important;
+  }
+}
+
+.css-i4bv87-MuiSvgIcon-root {
+  font-size: 2.5rem!important;
+}
+
+.css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root{
+  padding: 0 50px;
+  a{
+    text-decoration: none;
+    color: #42474D;
+  }
+}
+.css-i4bv87-MuiSvgIcon-root{
+  color: $base-color;
+}
+
+@media only screen and (max-width: 900px) {
+  .css-0{
+    background-color: red!important;
+    display: none!important;
+  }
+
+  .css-1vefb05-MuiTypography-root{
+    display: flex;
+    justify-content: left;
+
+    img{
+      text-align: center;
+      height: 70px;
+    }
+  }
+}

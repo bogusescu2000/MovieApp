@@ -1,0 +1,106 @@
+@import "main.scss";
+
+.container{
+  .title-block{
+    margin: 40px 0 40px 0;
+  
+      text-align: center;
+      .title{
+        font-size: 44px;
+        font-weight: 600;
+        font-family: $montserrat;
+        color: #42474D;
+        margin: 0;
+      }
+  
+      .blue-line {
+        display: flex;
+        justify-content: center;
+        height: 10px;
+        margin-bottom: 30px;
+      
+        div {
+            text-align: center;
+            width: 100px;
+            height: 10px;
+            border-bottom: 4px solid $base-color;
+            margin-top: -10px ;
+        }
+      }
+    }
+
+
+  .movies-block{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 40px;
+    .movie{
+      .image{
+      width: 100%;
+
+        img{
+          width: 100%;
+          max-height: 260px;
+          border-radius: 8px;
+        }
+      }
+
+      .content{
+
+        .title-rating{
+          display: flex;
+          justify-content: space-between;
+          margin-top: 10px;
+          color: $second-color;
+          h2{
+            color: $base-color;
+            font-size: 24px;
+            font-family: $robotto;
+            font-weight: 600;
+          }
+          p{
+            margin-right: 3px;
+            font-weight: 600;
+
+            span{
+              background-color: $base-color;
+              border-radius: 5px;
+              padding: 1px 8px;
+              color: #fff;
+
+            }
+          }
+        }
+
+        .movie-text{
+          font-size: 18px;
+          font-family: $robotto;
+          margin-bottom: 10px;
+
+          span{
+            color: $base-color;
+          }
+        }
+
+        .date{
+          font-size: 14px;
+          font-weight: 600;
+          color: $second-color;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 900px) {
+  .container .movies-block{
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media only screen and (max-width: 440px) {
+  .container .movies-block{
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+}
