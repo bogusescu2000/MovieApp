@@ -1,0 +1,49 @@
+@import "main.scss";
+
+.container{
+  .single-news{
+    .title{
+      color: $second-color;
+      font-family: $montserrat;
+      font-size: 48px;
+      font-weight: 600;
+      margin-top: 40px;
+    }
+
+    .info{
+      display: flex;
+      gap: 30px;
+      margin-bottom: 15px;
+
+      p{
+        color: $second-color;
+        font-family: $robotto;
+        font-size: 16px;
+        margin: 0;
+
+        span{
+          font-weight: 600;
+        }
+      }
+    }
+
+    .image{
+     
+      img{
+        width: 800px;
+        height: 400px;
+        border-radius: 8px;
+      }
+    }
+
+    .content{
+      p{
+        margin-top: 20px;
+        max-width: 700px;
+        color: $second-color;
+        font-size: 18px;
+        font-family: $robotto;
+      }
+    }
+  }
+}
