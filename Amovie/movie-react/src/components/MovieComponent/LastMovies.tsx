@@ -11,7 +11,7 @@ export default function LastMovies() {
     error,
     loading,
   } = useFetch<LastMoviesType[]>("http://localhost:7063/api/movies/lastmovies");
-  
+
   return (
     <div className="container">
       <div className="movies-title">
@@ -30,7 +30,10 @@ export default function LastMovies() {
             <div className="movie" key={movie.id}>
               <Link to={`/movies/${movie.id}`}>
                 <div className="image">
-                  <img src={`./images/${movie.image}`} alt={movie.title} />
+                  <img
+                    src={`http://localhost:7063/images/${movie?.image}`}
+                    alt={movie.title}
+                  />
                 </div>
               </Link>
               <div className="content">

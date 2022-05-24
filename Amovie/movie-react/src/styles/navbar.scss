@@ -95,6 +95,12 @@
   color: $base-color;
 }
 
+.is-active{
+  .button{
+    color: $base-color!important;
+  }
+}
+
 @media only screen and (max-width: 900px) {
   .css-0{
     background-color: red!important;

@@ -97,7 +97,7 @@ namespace Amovie.Controllers
         /// <param name="movieDto"></param>
         /// <returns></returns>
         [HttpPost("/create")]
-        public async Task<ActionResult> AddMovieWithGenre(AddMovieDto movieDto)
+        public async Task<ActionResult> AddMovieWithGenre([FromForm] AddMovieDto movieDto)
         {
             await _movieService.AddMovie(movieDto);
             return Ok();
@@ -115,7 +115,11 @@ namespace Amovie.Controllers
             await _movieService.UpdateMovie(movieDto, id);
         }
 
-        //Delete Movie
+        /// <summary>
+        /// Delete a movie
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task DeleteMovie(int id)
         {

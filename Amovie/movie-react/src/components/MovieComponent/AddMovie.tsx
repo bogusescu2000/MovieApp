@@ -42,29 +42,27 @@ export default function AddMovie() {
   const { data: genres } = useFetch<any[]>(genreUrl);
 
   const onSubmit = async (values: any) => {
-    console.log("works");
     const url = "http://localhost:7063/create";
-    const data = {
-      title: values.title,
-      image: values.image[0].name,
-      description: values.description,
-      release: moment(dateValue).format("YYYY-MM-DD"),
-      rating: values.rating,
-      duration: values.duration,
-      country: values.country,
-      budget: values.budget,
-      genreId: genreName,
-      actorId: actorName,
-    };
+    const data = new FormData();
+    data.append("title", values.title);
+    data.append("image", values.image[0]);
+    data.append("description", values.description);
+    data.append("release", moment(dateValue).format("YYYY-MM-DD"));
+    data.append("rating", values.rating);
+    data.append("duration", values.duration);
+    data.append("country", values.country);
+    data.append("budget", values.budget);
+    for (var i = 0; i < genreName.length; i++) {
+      data.append("genreId", genreName[i]);
+    }
+    for (var i = 0; i < actorName.length; i++) {
+      data.append("actorId", actorName[i]);
+    }
     try {
       await fetch(url, {
         method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json",
-        },
+        body: data,
       });
-      console.log("data ", data);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -79,9 +77,7 @@ export default function AddMovie() {
     const {
       target: { value },
     } = event;
-    setActorName(
-      typeof value === "string" ? value.split(",") : value
-    );
+    setActorName(typeof value === "string" ? value.split(",") : value);
   };
 
   const handleActorsChange = (event: SelectChangeEvent<typeof genreName>) => {
@@ -98,8 +94,22 @@ export default function AddMovie() {
         onSubmit={handleSubmit(onSubmit)}
         sx={{ display: "block", mt: 4, mb: 4 }}
       >
-        <Typography style={{ fontSize: 32, fontWeight: 'bold', marginLeft: 5, marginBottom: 10}}>Add Movie</Typography>
-        <Grid container spacing={2} sx={{ display: "flex" }} mx={{display: "flex"}}>
+        <Typography
+          style={{
+            fontSize: 32,
+            fontWeight: "bold",
+            marginLeft: 5,
+            marginBottom: 10,
+          }}
+        >
+          Add Movie
+        </Typography>
+        <Grid
+          container
+          spacing={2}
+          sx={{ display: "flex" }}
+          mx={{ display: "flex" }}
+        >
           <Grid item xs={5}>
             <TextField
               fullWidth
@@ -217,9 +227,9 @@ export default function AddMovie() {
           </Grid>
         </Grid>
 
-        <Grid sx={{display: 'flex', flexDirection: 'row'}}>
-          <FormControl sx={{  mt: 2, width: 300 }}>
-            <InputLabel id="demo-multiple-genres-label">Genres</InputLabel>
+        <Grid sx={{ display: "flex", flexDirection: "row" }}>
+          <FormControl sx={{ mt: 2, width: 300 }}>
+            <InputLabel id="demo-multiple-genres-label">Actors</InputLabel>
             <Select
               labelId="demo-multiple-genres-label"
               id="demo-multiple-genres"
@@ -238,7 +248,7 @@ export default function AddMovie() {
           </FormControl>
 
           <FormControl sx={{ mt: 2, width: 300 }}>
-            <InputLabel id="demo-multiple-actors-label">Actors</InputLabel>
+            <InputLabel id="demo-multiple-actors-label">Genres</InputLabel>
             <Select
               labelId="demo-multiple-actors-label"
               id="demo-multiple-actors"
@@ -258,7 +268,7 @@ export default function AddMovie() {
         <Button
           type="submit"
           variant="contained"
-          sx={{ mt: 3,  width: "120px" }}
+          sx={{ mt: 3, width: "120px" }}
         >
           Add movie
         </Button>

@@ -2,7 +2,7 @@ import "../../styles/newsdetails.scss";
 import moment from "moment";
 import useFetch from "../../hooks/useFetch";
 import { NewsType } from "../../Types/Types";
-import {useState} from "react";
+import { useState } from "react";
 
 export default function NewsDetails() {
   const url =
@@ -24,12 +24,16 @@ export default function NewsDetails() {
           <p>
             BY <span>{news?.authorName}</span>
           </p>
-          <p>{moment(news?.date).format("MMMM d")}</p>
+          <p>{moment(news?.date).format("MMMM d Y")}</p>
         </div>
-
-        <div className="image">
-          <img src={news?.image} alt={news?.title} />
-        </div>
+        {news && (
+          <div className="image">
+            <img
+              src={`http://localhost:7063/images/${news?.image}`}
+              alt={news?.title}
+            />
+          </div>
+        )}
         <div className="content">
           <p>{news?.content}</p>
         </div>

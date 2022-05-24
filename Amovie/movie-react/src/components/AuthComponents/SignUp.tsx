@@ -24,8 +24,6 @@ export default function SignUp() {
   } = useForm<RegisterType>({ resolver: yupResolver(registerSchema) });
 
   const onSubmit = async (values: RegisterType) => {
-    console.log(values);
-
     const url = "http://localhost:7063/api/register";
     const data = {
       name: values.name,
@@ -41,8 +39,6 @@ export default function SignUp() {
           "Content-Type": "application/json",
         },
       });
-      const json = (await response).json();
-      console.log("Succes:", JSON.stringify(json));
     } catch (error) {
       console.error("Error:", error);
     }

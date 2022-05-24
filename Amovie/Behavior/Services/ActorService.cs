@@ -15,7 +15,10 @@ namespace BLL.Services
             _repository = repository;
             _mapper = mapper;
         }
-
+        /// <summary>
+        /// Get all actors
+        /// </summary>
+        /// <returns></returns>
         public async Task<List<ActorDto>> GetAll()
         {
             var actors = await _repository.GetAll();

@@ -15,7 +15,10 @@ namespace Amovie.Controllers
             _actorService = actorService;
         }
 
-        //Get all Actors
+        /// <summary>
+        /// Get all Actors
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("allactors")]
         public async Task<ActionResult<List<ActorDto>>> Get()
         {

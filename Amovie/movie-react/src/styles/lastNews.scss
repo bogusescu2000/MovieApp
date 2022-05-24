@@ -40,7 +40,7 @@
   .content-block{
     display: grid;
     grid-template-columns: 1fr 2fr;
-    gap: 40px;
+    column-gap: 40px;
     align-items: center;
 
     .image-section{
@@ -48,6 +48,12 @@
         width: 97%;
         border-radius: 8px;
         max-height: 260px;
+        transition: all .2s ease-in-out;
+
+        &:hover{
+          transform: scale(1.02);
+          opacity: 0.95;
+        }
       }
     }
   }  

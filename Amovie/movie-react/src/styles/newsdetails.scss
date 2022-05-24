@@ -28,10 +28,10 @@
     }
 
     .image{
-     
+     max-width: 800px;
       img{
-        width: 800px;
-        height: 400px;
+       width: 100%;
+        max-height: 400px;
         border-radius: 8px;
       }
     }
@@ -39,7 +39,7 @@
     .content{
       p{
         margin-top: 20px;
-        max-width: 700px;
+        max-width: 750px;
         color: $second-color;
         font-size: 18px;
         font-family: $robotto;

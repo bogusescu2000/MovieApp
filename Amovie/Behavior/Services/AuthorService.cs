@@ -20,6 +20,10 @@ namespace Behaviour.Services
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Get all authors
+        /// </summary>
+        /// <returns></returns>
         public async Task<List<AuthorDto>> GetAll()
         {
             var authors = await _repository.GetAll();

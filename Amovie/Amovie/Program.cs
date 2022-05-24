@@ -25,13 +25,13 @@ builder.Services.AddCors(options =>
 builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-        
+
 });
 var AppName = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("AppSettings")["SecretKey"];
-//Console.WriteLine(AppName);
+
 builder.Services.AddControllers();
 
-//add mapper
+//Add Profiler
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddAutoMapper(typeof(MovieProfiler));
 

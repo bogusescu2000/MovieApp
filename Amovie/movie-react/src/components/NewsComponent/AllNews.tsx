@@ -9,10 +9,9 @@ import { NewsPage } from "../../Types/Types";
 export default function AllNews() {
   const [page, setPage] = useState(1);
 
-  const url = `http://localhost:7063/newspage/${page}?pageSize=${5}`;
+  const url = `http://localhost:7063/newspage/${page}?pageSize=${4}`;
 
   const { data, error, loading, refetch } = useFetch<NewsPage>(url);
-  console.log("data ", data);
 
   const userRole = localStorage.getItem("role");
   const deleteN = async (id: number) => {
@@ -66,31 +65,12 @@ export default function AllNews() {
                 <div>
                   <Link to={`/news/${n.id}`}>
                     <div className="image-section">
-                      <img src={`http://localhost:7063/images/${n.image}`} />
+                      <img
+                        src={`http://localhost:7063/images/${n.image}`}
+                        alt={n.title}
+                      />
                     </div>
                   </Link>
-                  {userRole === "admin" ? (
-                    <Box
-                      className="buttons"
-                      sx={{ justifyContent: "center", display: "flex", mt: 1 }}
-                    >
-                      <Link to={`/updatenews/${n.id}`}>
-                        <Button sx={{ mr: 2 }} variant="contained" color="info">
-                          Update
-                        </Button>
-                      </Link>
-                      <Button
-                        sx={{ ml: 2 }}
-                        onClick={() => deleteN(n.id)}
-                        variant="contained"
-                        color="error"
-                      >
-                        Delete
-                      </Button>
-                    </Box>
-                  ) : (
-                    ""
-                  )}
                 </div>
                 <div className="text-section">
                   <h2 className="title">{n.title}</h2>
@@ -102,6 +82,28 @@ export default function AllNews() {
                     <p>{moment(n.date).format("MMMM d Y")}</p>
                   </div>
                 </div>
+                {userRole === "admin" ? (
+                  <Box
+                    className="buttons"
+                    sx={{ justifyContent: "center", display: "flex", mt: 1 }}
+                  >
+                    <Link to={`/updatenews/${n.id}`}>
+                      <Button sx={{ mr: 2 }} variant="contained" color="info">
+                        Update
+                      </Button>
+                    </Link>
+                    <Button
+                      sx={{ ml: 2 }}
+                      onClick={() => deleteN(n.id)}
+                      variant="contained"
+                      color="error"
+                    >
+                      Delete
+                    </Button>
+                  </Box>
+                ) : (
+                  ""
+                )}
               </div>
               <hr className="line" />
             </div>

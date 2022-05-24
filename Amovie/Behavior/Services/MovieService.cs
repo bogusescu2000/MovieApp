@@ -3,7 +3,10 @@ using Behaviour.Interfaces;
 using DataAccess.Data;
 using Entities.Entities;
 using Entities.Models.MovieDto;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
+using Resources;
 
 namespace Behaviour.Services
 {
@@ -61,7 +64,7 @@ namespace Behaviour.Services
 
             if (movie == null)
             {
-                throw new Exception("Movie not found");
+                throw new Exception(Resource.MovieNotFound);
             }
             else
             {
@@ -79,6 +82,7 @@ namespace Behaviour.Services
             var actors = await _context.Actors.Where(x => movieDto.ActorId.Contains(x.Id)).ToListAsync();
 
             var movie = _mapper.Map<Movie>(movieDto);
+            movie.Image = UploadImage(movieDto.Image);
             movie.Genres = genres;
             movie.Actors = actors;
 
@@ -121,7 +125,7 @@ namespace Behaviour.Services
 
             if (movie == null)
             {
-                throw new Exception("Movie not found");
+                throw new Exception(Resource.MovieNotFound);
             }
             else
             {
@@ -180,6 +184,27 @@ namespace Behaviour.Services
                 Pages = (int)pageCount
             };
             return pagedMovies;
+        }
+        /// <summary>
+        /// Upload an image to wwwroot
+        /// </summary>
+        /// <param name="fileImage"></param>
+        /// <returns></returns>
+        private string UploadImage(IFormFile fileImage)
+        {
+            if (fileImage != null)
+            {
+                var uniqueImageName = Guid.NewGuid().ToString() + "_" + fileImage.FileName;
+                string uploadsFolder = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images")).Root;
+                string filePath = Path.Combine(uploadsFolder, uniqueImageName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    fileImage.CopyTo(fileStream);
+                }
+                return uniqueImageName;
+            }
+            return null;
         }
     }
 }

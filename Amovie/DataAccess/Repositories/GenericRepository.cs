@@ -30,7 +30,7 @@ namespace Behaviour.Abstract
         }
         public async Task<T> GetByIdWithIncludes(int id, params Expression<Func<T, object>>[] includeProperties)
         {
-            if (id == null) return null;
+            if (id == 0) return null;
 
             IQueryable<T> entities = _context.Set<T>();
 
@@ -49,7 +49,6 @@ namespace Behaviour.Abstract
             List<T> list;
             IQueryable<T> dbQuery = _context.Set<T>();
 
-            //Apply eager loading
             foreach (Expression<Func<T, object>> navigationProperty in navigationProperties)
             {
                 dbQuery = dbQuery.Include<T, object>(navigationProperty);
@@ -69,14 +68,15 @@ namespace Behaviour.Abstract
         public async Task Delete(int id)
         {
             var item = await _context.Set<T>().FindAsync(id);
-            _context.Set<T>().Remove(item);
+            if (item != null)
+            {
+                _context.Set<T>().Remove(item);
+            }
         }
 
         public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();
         }
-
-       
     }
 }

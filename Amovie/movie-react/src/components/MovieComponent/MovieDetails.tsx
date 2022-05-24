@@ -44,14 +44,18 @@ export default function MovieDetails() {
       });
   };
 
-  console.log("singleMovieData ", movie);
   return (
     <div className="container">
       {loading && <p>Loading data...</p>}
       <div className="single-block">
-        <div className="image-block">
-          <img src={movie?.image} alt={movie?.title} />
-        </div>
+        {movie && (
+          <div className="image-block">
+            <img
+              src={`http://localhost:7063/images/${movie?.image}`}
+              alt={movie?.title}
+            />
+          </div>
+        )}
         <div className="details-container">
           <h2>{movie?.title}</h2>
           <div className="date">
@@ -70,17 +74,18 @@ export default function MovieDetails() {
           <p className="description">{movie?.description}</p>
           <div className="details">
             <div className="names">
-              <p>Country:</p>
-              <p>Genre:</p>
-              <p>Actors:</p>
-              <p>Budget:</p>
-            </div>
-
-            <div className="dates">
-              <p>{movie?.country}</p>
-              <p>{movie?.genres.join(", ")}</p>
-              <p>{movie?.actors.join(", ")}</p>
-              <p>${movie?.budget} mln</p>
+              <p>
+                Country: <span>{movie?.country}</span>
+              </p>
+              <p>
+                Genre: <span>{movie?.genres.join(", ")}</span>
+              </p>
+              <p>
+                Actors: <span>{movie?.actors.join(", ")}</span>
+              </p>
+              <p>
+                Budget: <span>${movie?.budget} mln</span>
+              </p>
             </div>
           </div>
         </div>
@@ -110,9 +115,6 @@ export default function MovieDetails() {
                 </div>
                 {userRole === "admin" ? (
                   <div>
-                    {/* <button>
-                      <Link to={`/update/${review.id}`}>Update</Link>
-                    </button> */}
                     <Button
                       variant="contained"
                       color="error"

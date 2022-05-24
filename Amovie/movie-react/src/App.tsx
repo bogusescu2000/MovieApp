@@ -15,22 +15,9 @@ import SignUp from "./components/AuthComponents/SignUp";
 import AddNews from "./components/NewsComponent/AddNews";
 import UpdateNews from "./components/NewsComponent/UpdateNews";
 import AddMovie from "./components/MovieComponent/AddMovie";
+import { useEffect } from "react";
 
 function App() {
-  // const {user, setUser} = useContext(UserContext);
-
-  // useEffect(() => {
-  //   (async () => {
-  //     const response = await fetch("http://localhost:7063/api/user", {
-  //       headers: { "Content-Type": "application/json" },
-  //       credentials: "include",
-  //     });
-  //     const content = await response.json();
-  //     setUser({name: content.name});
-  //   })();
-  // }, []);
-  // console.log("user App => " + user?.name);
-
   return (
     <div>
       <Router>

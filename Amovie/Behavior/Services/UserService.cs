@@ -20,6 +20,12 @@ namespace Behaviour.Repositories
             _context = context;
             _secureKey = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("AppSettings")["SecretKey"];
         }
+
+        /// <summary>
+        /// Create a user
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         public async Task<User> Create(User user)
         {
             _context.Users.Add(user);
@@ -27,17 +33,7 @@ namespace Behaviour.Repositories
             return user;
         }
 
-        public async Task<User> GetByEmail(string email)
-        {
-            return await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
-        }
-
-        public async Task<User> GetById(int id)
-        {
-            return await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
-        }
-
-        public async Task<string> Generate(User user)
+        public Task<string> Generate(User user)
         {
             var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secureKey));
             var credentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
@@ -46,15 +42,20 @@ namespace Behaviour.Repositories
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Sid,user.Id.ToString()),
-                new Claim(ClaimTypes.Name,user.Name.ToString()),
-                new Claim(ClaimTypes.Role, user.UserRole.ToString())
+                new Claim(nameof(User.Name),user.Name.ToString()),
+                new Claim(nameof(User.UserRole), user.UserRole!.ToString())
             };
             var payLoad = new JwtPayload(user.Id.ToString(), null, claims, null, DateTime.Today.AddDays(1));
 
             var securityToken = new JwtSecurityToken(header, payLoad);
 
-            return new JwtSecurityTokenHandler().WriteToken(securityToken);
+            return Task.FromResult(new JwtSecurityTokenHandler().WriteToken(securityToken));
         }
+        /// <summary>
+        /// verify the jwt token
+        /// </summary>
+        /// <param name="jwt"></param>
+        /// <returns></returns>
         public async Task<JwtSecurityToken> Verify(string jwt)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -70,5 +71,26 @@ namespace Behaviour.Repositories
 
             return (JwtSecurityToken)validatedToken;
         }
+
+        /// <summary>
+        /// Get user by email
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        public async Task<User> GetByEmail(string email)
+        {
+            return await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
+        }
+
+        public async Task<User> GetById(int id)
+        {
+            return await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        /// <summary>
+        /// Generate a jwt token
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
     }
 }

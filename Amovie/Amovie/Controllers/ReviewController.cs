@@ -1,6 +1,5 @@
 ﻿using Behaviour.Interfaces;
 using Entities.Models.ReviewDto;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Amovie.Controllers
@@ -16,20 +15,33 @@ namespace Amovie.Controllers
             _reviewService = reviewService;
         }
 
-        //////Add Review
+        /// <summary>
+        /// Add review
+        /// </summary>
+        /// <param name="newsDto"></param>
+        /// <returns></returns>
         [HttpPost("addreview")]
         public async Task Add(AddReviewDto newsDto)
         {
             await _reviewService.AddReview(newsDto);
         }
-        //////Delete Review
+        /// <summary>
+        /// Delete Review
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("deletereview/{id}")]
         public async Task Delete(int id)
         {
             await _reviewService.DeleteReview(id);
         }
 
-        //////Update Review
+        /// <summary>
+        /// Update review
+        /// </summary>
+        /// <param name="reviewDto"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPut("updatereview/{id}")]
         public async Task Update(AddReviewDto reviewDto, int id)
         {

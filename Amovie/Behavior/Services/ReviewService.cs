@@ -2,6 +2,7 @@
 using Behaviour.Interfaces;
 using Entities.Entities;
 using Entities.Models.ReviewDto;
+using Resources;
 
 namespace Behaviour.Services
 {
@@ -15,20 +16,29 @@ namespace Behaviour.Services
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Add a review
+        /// </summary>
+        /// <param name="reviewDto"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public async Task AddReview(AddReviewDto reviewDto)
         {
             if (reviewDto == null)
             {
                 throw new ArgumentNullException(nameof(reviewDto));
             }
-            else
-            {
-                var review = _mapper.Map<Review>(reviewDto);
-                 await _repository.Add(review);
-                 await _repository.SaveChangesAsync();
-            }
+            var review = _mapper.Map<Review>(reviewDto);
+            await _repository.Add(review);
+            await _repository.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Delete a review
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public async Task DeleteReview(int id)
         {
             var reviews = await _repository.GetAll();
@@ -36,15 +46,19 @@ namespace Behaviour.Services
 
             if (review == null)
             {
-                throw new Exception("Review not found");
+                throw new Exception(Resource.ReviewNotFound);
             }
-            else
-            {
-                await _repository.Delete(review.Id);
-                await _repository.SaveChangesAsync();
-            }
+            await _repository.Delete(review.Id);
+            await _repository.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Update a review
+        /// </summary>
+        /// <param name="reviewDto"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public async Task UpdateReview(AddReviewDto reviewDto, int id)
         {
             var review = await _repository.Get(id);
@@ -53,12 +67,9 @@ namespace Behaviour.Services
             {
                 throw new Exception("Review not found!");
             }
-            else
-            {
-                _mapper.Map(reviewDto, review);
-                await _repository.Update(review);
-                await _repository.SaveChangesAsync();
-            }
+            _mapper.Map(reviewDto, review);
+            await _repository.Update(review);
+            await _repository.SaveChangesAsync();
         }
     }
 }

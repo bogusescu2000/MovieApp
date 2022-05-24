@@ -5,6 +5,7 @@ using Entities.Models.NewsDto;
 using Entities.Exceptions;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Http;
+using Resources;
 
 namespace Behaviour.Services
 {
@@ -13,12 +14,16 @@ namespace Behaviour.Services
         private readonly IRepository<News> _repository;
         private readonly IMapper _mapper;
 
-
         public NewsService(IRepository<News> repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
         }
+
+        /// <summary>
+        /// Get all news
+        /// </summary>
+        /// <returns></returns>
         public async Task<List<NewsDto>> GetAll()
         {
             var newsWithInclude = _repository.GetAllWithIncludes(x => x.Author);
@@ -27,10 +32,14 @@ namespace Behaviour.Services
             return newsDto;
         }
 
+        /// <summary>
+        /// Get last 3 news
+        /// </summary>
+        /// <returns></returns>
         public async Task<List<NewsDto>> GetLast()
         {
             var allNews = await _repository.GetAll();
-            var lastNews =  _repository.GetAllWithIncludes(x => x.Author).AsQueryable()
+            var lastNews = _repository.GetAllWithIncludes(x => x.Author).AsQueryable()
             .Skip(Math
             .Max(0, allNews
             .Count() - 3));
@@ -38,23 +47,34 @@ namespace Behaviour.Services
             var newsDto = _mapper.Map<List<NewsDto>>(lastNews);
             return newsDto;
         }
-
+        
+        /// <summary>
+        /// Get news by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public async Task<NewsDto> GetNews(int id)
         {
-            var news =  await _repository.GetByIdWithIncludes(id, x=>x.Author);
+            var news = await _repository.GetByIdWithIncludes(id, x => x.Author);
 
             var newsDto = _mapper.Map<NewsDto>(news);
 
             if (news == null)
             {
-                throw new Exception("News not found");
+                throw new Exception(Resource.NewsNotFound);
             }
             else
             {
                 return newsDto;
             }
         }
-
+        /// <summary>
+        /// Get paginated news
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
         public async Task<PagedNewsDto> GetPagedNews(int page, int pageSize)
         {
             var allNews = await _repository.GetAll();
@@ -74,7 +94,12 @@ namespace Behaviour.Services
             };
             return response;
         }
-
+        /// <summary>
+        /// Add a news
+        /// </summary>
+        /// <param name="newsDto"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public async Task AddNews(AddNewsDto newsDto)
         {
             if (newsDto == null)
@@ -89,14 +114,20 @@ namespace Behaviour.Services
                 await _repository.SaveChangesAsync();
             }
         }
-
+        /// <summary>
+        /// Update a news
+        /// </summary>
+        /// <param name="newsDto"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <exception cref="NotFoundException"></exception>
         public async Task UpdateNews(AddNewsDto newsDto, int id)
         {
             var news = await _repository.Get(id);
 
             if (news == null)
             {
-                throw new NotFoundException("News with such ID can not be found, please input an existent ID");
+                throw new NotFoundException(Resource.NewsNotFound);
             }
             else
             {
@@ -106,7 +137,12 @@ namespace Behaviour.Services
                 await _repository.SaveChangesAsync();
             }
         }
-
+        /// <summary>
+        /// Delete a news
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public async Task DeleteNews(int id)
         {
             var allNews = await _repository.GetAll();
@@ -114,7 +150,7 @@ namespace Behaviour.Services
 
             if (news == null)
             {
-                throw new Exception("News not found");
+                throw new Exception(Resource.NewsNotFound);
             }
             else
             {
@@ -123,6 +159,11 @@ namespace Behaviour.Services
             }
         }
 
+        /// <summary>
+        /// Upload a image to wwwrooot
+        /// </summary>
+        /// <param name="fileImage"></param>
+        /// <returns></returns>
         private string UploadImage(IFormFile fileImage)
         {
             if (fileImage != null)

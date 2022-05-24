@@ -1,5 +1,4 @@
-﻿
-using Behaviour.Interfaces;
+﻿using Behaviour.Interfaces;
 using Entities.Entities;
 using Entities.Models.UserDto;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +15,11 @@ namespace Amovie.Controllers
             _userService = repository;
         }
 
+        /// <summary>
+        /// Register a user
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterDto dto)
         {
@@ -32,6 +36,11 @@ namespace Amovie.Controllers
             return Created("succes", user);
         }
 
+        /// <summary>
+        /// Login a user
+        /// </summary>
+        /// <param name="loginDto"></param>
+        /// <returns></returns>
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
@@ -56,10 +65,14 @@ namespace Amovie.Controllers
 
             return Ok(new
             {
-                jwt, user
+                jwt
             });
         }
 
+        /// <summary>
+        /// Get user data
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("user")]
         public async Task<IActionResult> User()
         {
@@ -67,21 +80,21 @@ namespace Amovie.Controllers
             {
                 var jwt = Request.Cookies["jwt"];
 
-                var token = await _userService.Verify(jwt);
-
+                var token = await _userService.Verify(jwt!);
                 int userId = int.Parse(token.Issuer);
-
                 var user = await _userService.GetById(userId);
-
                 return Ok(user);
             }
 
-            catch (Exception ex)
+            catch (Exception)
             {
                 return Unauthorized();
             }
         }
-
+        /// <summary>
+        /// Logout a user
+        /// </summary>
+        /// <returns></returns>
         [HttpPost("logout")]
         public IActionResult Logout()
         {

@@ -21,6 +21,10 @@ namespace BLL.Services
             _repository = repository;
             _mapper = mapper;
         }
+        /// <summary>
+        /// Get all genres
+        /// </summary>
+        /// <returns></returns>
         public async Task<List<GenreDto>> GetAll()
         {
             var genres = await _repository.GetAll();

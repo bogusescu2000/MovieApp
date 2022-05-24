@@ -26,7 +26,10 @@ export default function LastNews() {
             <div className="content-block">
               <Link to={`/news/${n.id}`}>
                 <div className="image-section">
-                  <img src={`./images/${n.image}`} alt={n.title} />
+                  <img
+                    src={`http://localhost:7063/images/${n?.image}`}
+                    alt={n.title}
+                  />
                 </div>
               </Link>
               <div className="text-section">
@@ -47,5 +50,3 @@ export default function LastNews() {
     </div>
   );
 }
-
-

@@ -1,5 +1,5 @@
 import "../../styles/navbar.scss";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useContext, useState } from "react";
 import {
   AppBar,
@@ -43,17 +43,17 @@ const ResponsiveAppBar = () => {
     setUser({ name: "", role: "" });
   };
 
-  let menu;
   let currentUser = localStorage.getItem("name");
+  let menu;
   if (user?.name === "") {
     menu = (
       <Box>
-        <Link to="/signin">
-          <Button>Sign In</Button>
-        </Link>
-        <Link to="/signup">
-          <Button>Sign Up</Button>
-        </Link>
+        <NavLink activeClassName="is-active" to="/signin">
+          <Button className="button">Sign In</Button>
+        </NavLink>
+        <NavLink activeClassName="is-active" to="/signup">
+          <Button className="button">Sign Up</Button>
+        </NavLink>
       </Box>
     );
   } else {
@@ -64,9 +64,9 @@ const ResponsiveAppBar = () => {
         >
           Hello {currentUser}
         </Button>
-        <Link to="/signin" onClick={logout}>
-          <Button>Logout</Button>
-        </Link>
+        <NavLink activeClassName="is-active" to="/signin" onClick={logout}>
+          <Button className="button">Logout</Button>
+        </NavLink>
       </Box>
     );
   }
@@ -116,25 +116,25 @@ const ResponsiveAppBar = () => {
               sx={{ display: { xs: "block", md: "none" } }}
             >
               <MenuItem onClick={handleCloseNavMenu}>
-                <Link to="/movies">
-                  <Button>Movies</Button>
-                </Link>
+                <NavLink activeClassName="is-active" to="/movies">
+                  <Button className="button">Movies</Button>
+                </NavLink>
               </MenuItem>
               <MenuItem onClick={handleCloseNavMenu}>
-                <Link to="/news">
-                  <Button>News</Button>
-                </Link>
+                <NavLink activeClassName="is-active" to="/news">
+                  <Button className="button">News</Button>
+                </NavLink>
               </MenuItem>
 
               <MenuItem onClick={handleCloseNavMenu}>
-                <Link to="/signin">
-                  <Button>Sign In</Button>
-                </Link>
+                <NavLink activeClassName="is-active" to="/signin">
+                  <Button className="button">Sign In</Button>
+                </NavLink>
               </MenuItem>
               <MenuItem onClick={handleCloseNavMenu}>
-                <Link to="/signup">
-                  <Button>Sign Up</Button>
-                </Link>
+                <NavLink activeClassName="is-active" to="/signup">
+                  <Button className="button">Sign Up</Button>
+                </NavLink>
               </MenuItem>
             </Menu>
           </Box>
@@ -152,21 +152,19 @@ const ResponsiveAppBar = () => {
             </Link>
           </Typography>
           <Box className="box">
-            <Link to="/movies">
-              <Button>Movies</Button>
-            </Link>
-            <Link to="/news">
-              <Button>News</Button>
-            </Link>
+            <NavLink activeClassName="is-active" to="/movies">
+              <Button className="button">Movies</Button>
+            </NavLink>
+            <NavLink activeClassName="is-active" to="/news">
+              <Button className="button">News</Button>
+            </NavLink>
           </Box>
           <Box
             className="box"
             sx={{ flexGrow: 5, display: { xs: "none", md: "flex" } }}
           >
             <PersonIcon />
-            <Box>
-            {menu}
-            </Box>
+            <Box>{menu}</Box>
           </Box>
         </Toolbar>
       </Container>

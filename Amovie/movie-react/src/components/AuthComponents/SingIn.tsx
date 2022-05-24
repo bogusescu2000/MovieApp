@@ -20,7 +20,7 @@ import { LoginType } from "../../Types/Types";
 export default function SignIn() {
   const [redirect, setRedirect] = useState(false);
   const { user, setUser } = React.useContext(UserContext);
-  
+
   const methods = useForm<LoginType>({ resolver: yupResolver(loginSchema) });
 
   const {
@@ -46,32 +46,43 @@ export default function SignIn() {
         credentials: "include",
       });
       var result = await response.json();
-      console.log("Succes:", JSON.stringify(result));
+      const jwt = result.jwt;
+      const parsedJwt = JSON.parse(parseJwt(jwt));
+
+      localStorage.setItem("name", parsedJwt.Name);
+      localStorage.setItem("role", parsedJwt.UserRole);
+      setUser({ name: parsedJwt.Name, role: parsedJwt.UserRole });
     } catch (error) {
       console.error("Error:", error);
     }
 
+    function parseJwt(token: string) {
+      var atob = require("atob");
+      var base64Url = token.split(".")[1];
+      var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+      var jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split("")
+          .map(function (c: string) {
+            return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+          })
+          .join("")
+      );
+      return jsonPayload;
+    }
 
-    //   function parseJwt (token:string) {
-    //     var atob = require('atob');
-    //     var base64Url = token.split('.')[1];
-    //     var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    //     var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c:string) {
-    //         return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    //     }).join(''));
+    // async function fetchUserData() {
+    //   const response = await fetch("http://localhost:7063/api/user", {
+    //     headers: { "Content-Type": "application/json" },
+    //     credentials: "include",
+    //   });
+    //   const content = await response.json();
+    //   localStorage.setItem("name", content.name);
+    //   localStorage.setItem("role", content.userRole);
+    //   setUser({ name: content.name, role: content.userRole });
+    // }
+    // fetchUserData();
 
-    //     return jsonPayload;
-    // };
-    //  var jwt = require("jsonwebtoken");
-    //   const jwtToken = result.jwt;
-    //   var decode1 = jwt.decode(jwtToken);
-
-    //   console.log("decode "+ decode1);
-
-    localStorage.setItem('name', result.user.name);
-    localStorage.setItem('role', result.user.userRole);
-
-    setUser({ name: result.user.name, role: result.user.userRole });
     setRedirect(true);
   };
 

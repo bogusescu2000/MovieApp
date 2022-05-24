@@ -66,7 +66,17 @@ export default function AddNews() {
         onSubmit={handleSubmit(onSubmit)}
         sx={{ display: "block", mt: 4, mb: 4 }}
       >
-        
+        <Typography
+          style={{
+            fontSize: 32,
+            fontWeight: "bold",
+            marginLeft: 5,
+            marginBottom: 10,
+          }}
+        >
+          Add News
+        </Typography>
+
         <Grid container spacing={2} sx={{ display: "block" }}>
           <Grid item xs={6}>
             <TextField

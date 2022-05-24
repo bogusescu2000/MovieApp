@@ -14,7 +14,10 @@ namespace Amovie.Controllers
             _genreService = genreService;
         }
 
-        //Get all genres
+        /// <summary>
+        /// Get all genres
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("allgenres")]
         public async Task<ActionResult<List<GenreDto>>> Get()
         {
